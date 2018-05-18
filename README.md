@@ -1284,6 +1284,8 @@ In this demo we deployed Kubernetes on DC/OS, set up NGinx as Ingress, built and
 
 Throughout our demonstration we did something things simply to avoid overcomplicating the code examples, if you decide you'd like to continue building off of the examples here for your own application you may want to look into using [Diesel Connection Pooling][39] to avoid separate connections for each request, and storing the connection pool via [Rocket Managed State][38]. You'll also want to develop some pagination layer on top of the GET methods in the examples, and implement further search functionality.
 
+Note that the PostgreSQL server here is for demonstration purposes only, it isn't HA and it doesn't have persistence. Also when it comes to running migrations, in this demo we ran our migrations manually but if you want to expand upon this demo on your own you may want to consider something like [init containers][45] to run your migrations.
+
 I recommend reading more on [Skaffold][0] and getting to know more of the options and features and expand upon what we did here by going through some of the available [examples][6].
 
 For more information about Kubernetes on DC/OS, see [Mesosphere's Kubernetes service page][42].
@@ -1332,3 +1334,4 @@ If you'd like help with DC/OS see the [DC/OS Documentation][43] or [Contact Meso
 [42]:https://docs.mesosphere.com/services/kubernetes/
 [43]:https://docs.mesosphere.com/
 [44]:https://mesosphere.com/contact/
+[45]:https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
