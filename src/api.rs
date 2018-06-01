@@ -94,7 +94,7 @@ fn employee_delete(employee_id: i32) -> Option<NoContent> {
     use schema::employees::dsl::*;
 
     let db = dbc();
-    let deleted = delete(employees.filter(id.eq(employee_id))).execute(&db)
+    let deleted = delete(employees.find(employee_id)).execute(&db)
         .expect("Error deleting Employee");
 
     if deleted >= 1 {
