@@ -1,15 +1,29 @@
 [package]
 name = "rust-web-demo"
 version = "0.1.0"
+build = "build.rs"
+
+[lib]
+name = "protos"
+path = "src/protos/mod.rs"
 
 [dependencies]
 diesel = { version = "1.0.0", features = ["postgres"] }
 dotenv = "0.9.0"
-rocket = "0.3.9"
-rocket_codegen = "0.3.9"
+rocket = "0.3.14"
+rocket_codegen = "0.3.14"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
+grpcio = "0.3.0"
+protobuf = "~2.0"
+futures = "0.1"
+
+[build-dependencies]
+protobuf = "2.0.2"
+protobuf-codegen = "2.0.2"
+grpcio-compiler = "0.3.0"
+protoc-grpcio = "0.2.0"
 
 [dependencies.rocket_contrib]
 version = "0.3.9"

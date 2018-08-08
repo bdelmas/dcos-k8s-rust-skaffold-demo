@@ -1,24 +1,30 @@
 #![feature(plugin)]
-#![feature(custom_derive)]
 #![plugin(rocket_codegen)]
 
-#[macro_use] extern crate diesel;
-#[macro_use] extern crate serde_derive;
-#[macro_use] extern crate serde_json;
-extern crate rocket_contrib;
 extern crate rocket;
-extern crate dotenv;
-
-mod api;
-mod errors;
-mod forms;
-mod models;
-mod postgres;
-mod schema;
+extern crate grpcio;
+extern crate protos;
 
 use rocket::config::{Config, Environment};
 
-use api::{gen_routes, gen_errors};
+use grpcio::{ChannelBuilder, EnvBuilder};
+use protos::helloworld::HelloRequest;
+use protos::helloworld_grpc::GreeterClient;
+use std::sync::Arc;
+
+#[get("/")]
+fn hello() -> String {
+    let env = Arc::new(EnvBuilder::new().build());
+    let ch = ChannelBuilder::new(env).connect("hello-proto-s:50051");
+    let client = GreeterClient::new(ch);
+
+
+    let mut req = HelloRequest::new();
+    req.set_name("Rocket".to_owned());
+    let reply = client.say_hello(&req).expect("rpc");
+
+    format!("{} Webserver!", &reply.get_message())
+}
 
 fn main() {
     let config = Config::build(Environment::Staging)
@@ -27,10 +33,8 @@ fn main() {
         .finalize()
         .unwrap();
 
-
-
     rocket::custom(config, true)
-        .mount("/", gen_routes())
-        .catch(gen_errors())
+        .mount("/", routes![hello])
         .launch();
 }
+

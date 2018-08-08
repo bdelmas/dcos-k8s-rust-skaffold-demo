@@ -2,7 +2,7 @@ apiVersion: skaffold/v1alpha2
 kind: Config
 build:
   artifacts:
-  - imageName: docker.io/YOUR_USERNAME/rust-web-demo
+  - imageName: docker.io/bdelmas/rust-web-demo
     workspace: .
     docker: {}
     bazel: null
